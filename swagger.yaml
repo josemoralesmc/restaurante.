@@ -1,0 +1,257 @@
+swagger: '2.0'
+info:
+  description: Documentacion API Dalilah Resto
+  version: 2.0.0
+  title: Restaurante Dalilah Resto
+  contact:
+    email: hola@acamica.com
+host: www.acamica.com
+tags:
+  - name: Usuarios
+    description: CRUD usuarios en la app del restaurante
+  - name: pedidos
+    description: CRUD de pedidos
+  - name: productos
+    description: CRUD de productos
+paths:
+  /usuarios:
+    get:
+      tags:
+        - Usuarios
+      summary: Traer todos los usuarios del sistema
+      description: >-
+        Trae todos los usuarios del sistema y solo puede ser consultado por el
+        administrador
+      responses:
+        '200':
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Usuario'
+        '405':
+          description: Elemento invalido
+    post:
+      tags:
+        - Usuarios
+      summary: Registro de usuarios al sistema como cliente
+      description: Creacion de usuario en el sistema como cliente nunca como admin
+      parameters:
+        - in: body
+          name: body
+          description: Objeto para crear usuario
+          required: true
+          schema:
+            $ref: '#/definitions/Usuario'
+      responses:
+        '200':
+          description: Usuario creado
+        '405':
+          description: Elemento invalido
+    put:
+      tags:
+        - Usuarios
+      summary: Actualizar datos del usuario
+      description: Modificacion o actualizacion de los datos de un usuario
+      parameters:
+        - in: body
+          name: body
+          description: Objeto para actualizar usuario
+          required: true
+          schema:
+            $ref: '#/definitions/Usuario'
+      responses:
+        '200':
+          description: Usuario actualizado
+        '405':
+          description: Elemento invalido
+  '/usuarios/{id_usuario}':
+    delete:
+      tags:
+        - Usuarios
+      summary: Eliminar Usuario
+      description: Eliminar un Usuario
+      parameters:
+        - name: id_usuario
+          in: path
+          description: Id del usuario borrado
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Usuario eliminado
+        '405':
+          description: Elemento invalido
+  /pedidos:
+    get:
+      tags:
+        - pedidos
+      summary: Obtener todos los pedidos
+      description: Obtener todos los pedidos por un administrador
+      parameters:
+        - in: body
+          name: body
+          description: Objeto del pedido
+          required: true
+          schema:
+            $ref: '#/definitions/pedidos'
+      responses:
+        '200':
+          description: OK
+        '405':
+          description: Elemento invalido
+    post:
+      tags:
+        - pedidos
+      summary: Creacion de un pedido
+      description: Creacion de un pedido en el sistema como cliente
+      parameters:
+        - in: body
+          name: body
+          description: Objeto para crear pedido
+          required: true
+          schema:
+            $ref: '#/definitions/pedidos'
+      responses:
+        '200':
+          description: Pedido creado
+        '405':
+          description: Elemento invalido
+    put:
+      tags:
+        - pedidos
+      summary: Actualizar estado de un pedido
+      description: Modificacion o actualizacion de un pedido
+      parameters:
+        - in: body
+          name: body
+          description: Objeto para actualizar pedido
+          required: true
+          schema:
+            $ref: '#/definitions/pedidos'
+      responses:
+        '200':
+          description: Pedido actualizado
+        '405':
+          description: Elemento invalido
+  /productos:
+    get:
+      tags:
+        - productos
+      summary: Obtener todos los productos
+      description: Traer todos los productos como administrador
+      parameters:
+        - in: body
+          name: body
+          description: Objeto del producto
+          required: true
+          schema:
+            $ref: '#/definitions/Productos'
+      responses:
+        '200':
+          description: OK
+        '405':
+          description: Elemento invalido
+    post:
+      tags:
+        - productos
+      summary: Creacion de un producto
+      description: Creacion de un producto como administrador
+      parameters:
+        - in: body
+          name: body
+          description: Objeto para crear un producto
+          required: true
+          schema:
+            $ref: '#/definitions/Productos'
+      responses:
+        '200':
+          description: Producto creado
+        '405':
+          description: Elemento invalido
+    put:
+      tags:
+        - productos
+      summary: Actualizar estado de un producto
+      description: Modificacion o actualizacion de un producto
+      parameters:
+        - in: body
+          name: body
+          description: Objeto para actualizar producto
+          required: true
+          schema:
+            $ref: '#/definitions/Productos'
+      responses:
+        '200':
+          description: producto actualizado
+        '405':
+          description: Elemento invalido
+  '/productos/{id_producto}':
+    delete:
+      tags:
+        - productos
+      summary: Eliminar producto
+      description: Eliminar un producto
+      parameters:
+        - name: id_producto
+          in: path
+          description: Id del producto borrado
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: producto eliminado
+        '405':
+          description: Elemento invalido
+definitions:
+  Usuario:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      nombre_usuario:
+        type: string
+      nombre_apellido:
+        type: string
+      email:
+        type: string
+      direccion_envio:
+        type: integer
+        format: string
+      telefono:
+        type: string
+      esAdministrador:
+        type: boolean
+  pedidos:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      forma_pago:
+        type: string
+      estado_pedido:
+        type: string
+      total:
+        type: integer
+        format: int64
+      direccion_envio:
+        type: integer
+        format: string
+      usuario_id:
+        type: integer
+        format: int64
+  Productos:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      nombre:
+        type: string
+      url_foto:
+        type: string
+      precio:
+        type: integer
+        format: int64
