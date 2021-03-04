@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken');
 const conexion = require('../conexion');
 const bcrypt = require('bcryptjs');
 const router = require('express').Router();
-const ValidarUsuario2 = require('../middlewares/Usuariosvalidar')
+const validarAdministrador = require('../middlewares/validarAdministrador');
+
 
 router.route('/login').post(async (req, res) => {
     const { nombre_usuario, contrasena } = req.body;
@@ -20,12 +21,23 @@ router.route('/login').post(async (req, res) => {
     }
 });
 
-router.route('/registrar').post(ValidarUsuario2, async (req, res) => {
+router.route('/registrar').post( async (req, res) => {
     const { nombre_usuario, nombre_apellido, email, direccion_envio, telefono, contrasena } = req.body;
 
     const passwordHash = bcrypt.hashSync(contrasena, process.env.bcrypt_cantidad);
 
     await conexion.query('INSERT INTO usuario (nombre_usuario, nombre_apellido, email, direccion_envio, telefono, contrasena, esAdministrador) VALUES (?, ?, ?, ?, ?, ?, FALSE)', {
+        replacements: [nombre_usuario, nombre_apellido, email, direccion_envio, telefono, passwordHash]
+    });
+    res.status(204).end();
+});
+
+router.route('/registrarAdmin').post(validarAdministrador, async (req, res) => {
+    const { nombre_usuario, nombre_apellido, email, direccion_envio, telefono, contrasena } = req.body;
+
+    const passwordHash = bcrypt.hashSync(contrasena, process.env.bcrypt_cantidad);
+
+    await conexion.query('INSERT INTO usuario (nombre_usuario, nombre_apellido, email, direccion_envio, telefono, contrasena, esAdministrador) VALUES (?, ?, ?, ?, ?, ?, TRUE)', {
         replacements: [nombre_usuario, nombre_apellido, email, direccion_envio, telefono, passwordHash]
     });
     res.status(204).end();

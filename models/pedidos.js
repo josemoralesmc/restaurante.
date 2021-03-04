@@ -67,4 +67,11 @@ Pedido.actualizarEstado = async (id_pedido, estado_pedido) => {
     }
 }
 
+Pedido.borrar = async (id) => {
+    const result = await sequelize.query('DELETE FROM pedidos WHERE id = ?', {
+        replacements: [id]
+    });
+    return result;
+}
+
 module.exports = Pedido;

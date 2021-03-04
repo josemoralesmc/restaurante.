@@ -28,8 +28,15 @@ router.route('/')
         } catch (error) {
             console.log(error);
         }
-        
+
+    }).delete(validarAdministrador, async (req, res) => {
+        const id_pedido = req.query.id;
+
+        await Pedido.borrar(id_pedido);
+
+        res.json('Pedido eliminado con id ' + id_pedido);
     });
+;
 
 router.route('/:id')
     .get(async (req, res) => {

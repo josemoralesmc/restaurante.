@@ -1,14 +1,14 @@
 const router = require('express').Router();
 const validarAdmin = require('../middlewares/validarAdministrador');
 const Usuario = require('../models/Usuario');
-const ValidarUsuario = require('../middlewares/Usuariosvalidar')
+
 
 router.route('/')
     .get(validarAdmin, async (req, res) => {
         const usuarios = await Usuario.obtenerTodos();
         res.json(usuarios);
     })
-    .put(validarAdmin, ValidarUsuario, async (req, res) => {
+    .put(validarAdmin, async (req, res) => {
         const id_usuario = req.query.id;
         const { nombre_usuario, nombre_apellido, email, direccion_envio, telefono } = req.body;
 
