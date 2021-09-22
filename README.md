@@ -17,3 +17,6 @@ Correr el script con nombre BD-Restaurante.sql para crear la BD y sus tablas
 
 ### Instalacion postman
 Buscar el archivo coleccionPostman.json o swagger.yaml e importarlo en postman para hacer pruebas.
+
+### Futuro
+Realizar la interfaz con react 
